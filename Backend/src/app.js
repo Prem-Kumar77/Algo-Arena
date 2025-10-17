@@ -28,16 +28,7 @@ app.use(
 );
 
 // Handle preflight with credentials
-app.options("*", cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(new Error("Not allowed by CORS"));
-  },
-  credentials: true,
-}));
+
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
