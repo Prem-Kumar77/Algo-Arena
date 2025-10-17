@@ -1,0 +1,639 @@
+[
+  {
+    "title": "Sum of Digits II",
+    "description": "Given an integer, compute the sum of its digits until a single digit remains.",
+    "constraints": ["1 <= n <= 10^9"],
+    "examples": [
+      { "input": "38", "output": "2", "explanation": "3+8=11 -> 1+1=2" },
+      {
+        "input": "12345",
+        "output": "6",
+        "explanation": "1+2+3+4+5=15 -> 1+5=6"
+      }
+    ],
+    "tags": ["math", "implementation"],
+    "difficulty": "Medium",
+    "testCases": [
+      { "input": "5", "output": "5", "hidden": false },
+      { "input": "10", "output": "1", "hidden": false },
+      { "input": "99", "output": "9", "hidden": true },
+      { "input": "38", "output": "2", "hidden": true },
+      { "input": "123", "output": "6", "hidden": true },
+      { "input": "9876", "output": "2", "hidden": true },
+      { "input": "1001", "output": "2", "hidden": true },
+      { "input": "456", "output": "6", "hidden": true },
+      { "input": "7777", "output": "1", "hidden": true },
+      { "input": "567", "output": "9", "hidden": true },
+      { "input": "88", "output": "7", "hidden": true },
+      { "input": "19", "output": "1", "hidden": true },
+      { "input": "999", "output": "9", "hidden": true },
+      { "input": "1234", "output": "1", "hidden": true },
+      { "input": "4321", "output": "1", "hidden": true },
+      { "input": "2468", "output": "2", "hidden": true },
+      { "input": "13579", "output": "6", "hidden": true },
+      { "input": "11111", "output": "5", "hidden": true },
+      { "input": "22222", "output": "1", "hidden": true },
+      { "input": "33333", "output": "6", "hidden": true }
+    ],
+    "author": "68a619aa1af9d20169488cf3",
+    "timelimit": 1,
+    "memorylimit": 256,
+    "slug": "sum-of-digits-ii",
+    "active": false
+  },
+  {
+    "title": "Prime Checker",
+    "description": "Given an integer n, determine if it is prime.",
+    "constraints": ["1 <= n <= 10^6"],
+    "examples": [
+      { "input": "7", "output": "Yes", "explanation": "7 is prime" },
+      { "input": "10", "output": "No", "explanation": "10 is not prime" }
+    ],
+    "tags": ["math", "number theory"],
+    "difficulty": "Medium",
+    "testCases": [
+      { "input": "1", "output": "No", "hidden": false },
+      { "input": "2", "output": "Yes", "hidden": false },
+      { "input": "3", "output": "Yes", "hidden": false },
+      { "input": "4", "output": "No", "hidden": true },
+      { "input": "5", "output": "Yes", "hidden": true },
+      { "input": "6", "output": "No", "hidden": true },
+      { "input": "7", "output": "Yes", "hidden": true },
+      { "input": "8", "output": "No", "hidden": true },
+      { "input": "9", "output": "No", "hidden": true },
+      { "input": "10", "output": "No", "hidden": true },
+      { "input": "11", "output": "Yes", "hidden": true },
+      { "input": "12", "output": "No", "hidden": true },
+      { "input": "13", "output": "Yes", "hidden": true },
+      { "input": "14", "output": "No", "hidden": true },
+      { "input": "15", "output": "No", "hidden": true },
+      { "input": "16", "output": "No", "hidden": true },
+      { "input": "17", "output": "Yes", "hidden": true },
+      { "input": "18", "output": "No", "hidden": true },
+      { "input": "19", "output": "Yes", "hidden": true },
+      { "input": "20", "output": "No", "hidden": true }
+    ],
+    "author": "68a619aa1af9d20169488cf3",
+    "timelimit": 1,
+    "memorylimit": 256,
+    "slug": "prime-checker",
+    "active": false
+  },
+  {
+    "title": "Digit Frequency",
+    "description": "Given a number, count the frequency of each digit in it.",
+    "constraints": ["1 <= n <= 10^9"],
+    "examples": [
+      {
+        "input": "1223",
+        "output": "1:1 2:2 3:1",
+        "explanation": "Digit 1 appears once, 2 twice, 3 once"
+      },
+      {
+        "input": "11122",
+        "output": "1:3 2:2",
+        "explanation": "Digit 1 appears 3 times, 2 appears 2 times"
+      }
+    ],
+    "tags": ["math", "implementation", "counting"],
+    "difficulty": "Medium",
+    "testCases": [
+      { "input": "123", "output": "1:1 2:1 3:1", "hidden": false },
+      { "input": "112233", "output": "1:2 2:2 3:2", "hidden": false },
+      { "input": "111", "output": "1:3", "hidden": true },
+      { "input": "222", "output": "2:3", "hidden": true },
+      { "input": "1212", "output": "1:2 2:2", "hidden": true },
+      {
+        "input": "123456789",
+        "output": "1:1 2:1 3:1 4:1 5:1 6:1 7:1 8:1 9:1",
+        "hidden": true
+      },
+      {
+        "input": "9876543210",
+        "output": "0:1 1:1 2:1 3:1 4:1 5:1 6:1 7:1 8:1 9:1",
+        "hidden": true
+      },
+      { "input": "111222333", "output": "1:3 2:3 3:3", "hidden": true },
+      { "input": "101010", "output": "0:3 1:3", "hidden": true },
+      { "input": "999888777", "output": "7:3 8:3 9:3", "hidden": true },
+      {
+        "input": "456789",
+        "output": "4:1 5:1 6:1 7:1 8:1 9:1",
+        "hidden": true
+      },
+      { "input": "123123", "output": "1:2 2:2 3:2", "hidden": true },
+      { "input": "122112", "output": "1:3 2:3", "hidden": true },
+      { "input": "1001", "output": "0:2 1:2", "hidden": true },
+      { "input": "321123", "output": "1:2 2:2 3:2", "hidden": true },
+      { "input": "456456", "output": "4:2 5:2 6:2", "hidden": true },
+      { "input": "789789", "output": "7:2 8:2 9:2", "hidden": true },
+      { "input": "12345", "output": "1:1 2:1 3:1 4:1 5:1", "hidden": true },
+      { "input": "98765", "output": "5:1 6:1 7:1 8:1 9:1", "hidden": true },
+      { "input": "111000", "output": "0:3 1:3", "hidden": true }
+    ],
+    "author": "68a619aa1af9d20169488cf3",
+    "timelimit": 1,
+    "memorylimit": 256,
+    "slug": "digit-frequency",
+    "active": false
+  },
+  {
+    "title": "Graph Connectivity Queries",
+    "description": "You are given an undirected graph with n nodes and m edges. Answer q queries, each asking whether two nodes are connected.",
+    "constraints": ["2 <= n <= 1000", "1 <= m <= 5000", "1 <= q <= 1000"],
+    "examples": [
+      { "input": "4 3\n1 2\n2 3\n3 4\n2\n1 4\n1 3", "output": "Yes\nYes" },
+      { "input": "3 1\n1 2\n2\n1 3\n2 3", "output": "No\nNo" }
+    ],
+    "testCases": [
+      {
+        "input": "5 4\n1 2\n2 3\n3 4\n4 5\n3\n1 5\n2 4\n1 3",
+        "output": "Yes\nYes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "6 3\n1 2\n2 3\n4 5\n2\n1 4\n4 6",
+        "output": "No\nNo",
+        "hidden": false
+      },
+      {
+        "input": "7 6\n1 2\n2 3\n3 4\n4 5\n5 6\n6 7\n3\n1 7\n2 5\n3 6",
+        "output": "Yes\nYes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "4 2\n1 2\n3 4\n2\n1 3\n2 4",
+        "output": "No\nNo",
+        "hidden": false
+      },
+      {
+        "input": "8 7\n1 2\n2 3\n3 4\n4 5\n5 6\n6 7\n7 8\n4\n1 8\n2 6\n3 5\n4 7",
+        "output": "Yes\nYes\nYes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "5 2\n1 2\n3 4\n3\n1 5\n2 3\n4 5",
+        "output": "No\nNo\nNo",
+        "hidden": false
+      },
+      {
+        "input": "10 9\n1 2\n2 3\n3 4\n4 5\n5 6\n6 7\n7 8\n8 9\n9 10\n2\n1 10\n3 8",
+        "output": "Yes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "6 5\n1 2\n2 3\n3 4\n4 5\n5 6\n2\n1 6\n2 5",
+        "output": "Yes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "7 4\n1 2\n3 4\n5 6\n6 7\n3\n1 3\n2 5\n4 7",
+        "output": "No\nNo\nYes",
+        "hidden": false
+      },
+      {
+        "input": "5 3\n1 2\n2 3\n3 4\n2\n1 5\n2 4",
+        "output": "No\nYes",
+        "hidden": false
+      },
+      {
+        "input": "8 6\n1 2\n2 3\n3 4\n4 5\n6 7\n7 8\n3\n1 5\n6 8\n2 7",
+        "output": "Yes\nYes\nNo",
+        "hidden": false
+      },
+      {
+        "input": "6 4\n1 2\n2 3\n3 4\n5 6\n2\n1 4\n5 6",
+        "output": "Yes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "7 5\n1 2\n2 3\n3 4\n4 5\n6 7\n2\n1 5\n1 7",
+        "output": "Yes\nNo",
+        "hidden": false
+      },
+      {
+        "input": "5 4\n1 2\n2 3\n3 4\n4 5\n2\n2 5\n1 3",
+        "output": "Yes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "6 6\n1 2\n2 3\n3 4\n4 5\n5 6\n6 1\n3\n1 4\n2 5\n3 6",
+        "output": "Yes\nYes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "4 3\n1 2\n2 3\n3 4\n2\n1 4\n2 4",
+        "output": "Yes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "8 5\n1 2\n2 3\n3 4\n5 6\n7 8\n3\n1 4\n5 7\n2 3",
+        "output": "Yes\nNo\nYes",
+        "hidden": false
+      },
+      {
+        "input": "7 6\n1 2\n2 3\n3 4\n4 5\n5 6\n6 7\n2\n1 7\n3 6",
+        "output": "Yes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "6 4\n1 2\n2 3\n3 4\n4 5\n2\n1 5\n2 4",
+        "output": "Yes\nYes",
+        "hidden": false
+      },
+      {
+        "input": "5 3\n1 2\n2 3\n3 4\n2\n1 4\n2 5",
+        "output": "Yes\nNo",
+        "hidden": false
+      }
+    ],
+    "tags": ["graphs", "dfs", "bfs", "connectivity", "queries"],
+    "difficulty": "Hard",
+    "author": "68a619aa1af9d20169488cf3",
+    "timelimit": 2,
+    "memorylimit": 256,
+    "slug": "graph-connectivity-queries",
+    "active": false
+  },
+  {
+    "title": "Simulation of Elevator System",
+    "description": "Simulate an elevator system in a building with n floors. Process commands: 'UP x', 'DOWN x', 'OPEN', 'CLOSE'. Output the final floor after all commands.",
+    "constraints": ["2 <= n <= 100", "1 <= commands <= 1000"],
+    "examples": [
+      { "input": "5\nUP 2\nDOWN 1\nUP 3\nOPEN\nCLOSE", "output": "4" },
+      { "input": "10\nUP 3\nDOWN 2\nUP 1", "output": "2" }
+    ],
+    "testCases": [
+      {
+        "input": "5\nUP 1\nUP 2\nDOWN 1\nOPEN\nCLOSE",
+        "output": "2",
+        "hidden": false
+      },
+      {
+        "input": "6\nUP 2\nDOWN 1\nUP 3\nOPEN\nCLOSE",
+        "output": "4",
+        "hidden": false
+      },
+      { "input": "10\nUP 3\nDOWN 2\nUP 1", "output": "2", "hidden": false },
+      {
+        "input": "8\nUP 2\nUP 3\nDOWN 4\nOPEN",
+        "output": "1",
+        "hidden": false
+      },
+      {
+        "input": "7\nDOWN 1\nUP 4\nDOWN 2\nCLOSE",
+        "output": "2",
+        "hidden": false
+      },
+      { "input": "6\nUP 5\nDOWN 2\nUP 1", "output": "4", "hidden": false },
+      { "input": "5\nUP 2\nDOWN 3\nUP 1", "output": "1", "hidden": false },
+      { "input": "10\nDOWN 5\nUP 6\nDOWN 2", "output": "4", "hidden": false },
+      { "input": "9\nUP 2\nUP 3\nDOWN 4", "output": "1", "hidden": false },
+      {
+        "input": "8\nUP 4\nDOWN 1\nUP 2\nOPEN",
+        "output": "5",
+        "hidden": false
+      },
+      { "input": "5\nUP 1\nDOWN 1\nUP 1", "output": "1", "hidden": false },
+      { "input": "6\nDOWN 2\nUP 3\nDOWN 1", "output": "2", "hidden": false },
+      { "input": "7\nUP 2\nDOWN 3\nUP 4", "output": "3", "hidden": false },
+      { "input": "8\nUP 5\nDOWN 2\nUP 1", "output": "4", "hidden": false },
+      { "input": "10\nUP 3\nDOWN 4\nUP 2", "output": "1", "hidden": false },
+      { "input": "6\nUP 2\nUP 1\nDOWN 1", "output": "2", "hidden": false },
+      { "input": "7\nDOWN 3\nUP 5\nDOWN 1", "output": "3", "hidden": false },
+      { "input": "5\nUP 2\nDOWN 2\nUP 1", "output": "1", "hidden": false },
+      { "input": "9\nUP 4\nDOWN 3\nUP 2", "output": "3", "hidden": false },
+      { "input": "8\nUP 2\nUP 3\nDOWN 4", "output": "1", "hidden": false }
+    ],
+    "tags": ["simulation", "implementation", "strings"],
+    "difficulty": "Medium",
+    "author": "68a619aa1af9d20169488cf3",
+    "timelimit": 2,
+    "memorylimit": 256,
+    "slug": "simulation-elevator-system",
+    "active": false
+  },
+  {
+    "title": "Matrix Row Sum Queries",
+    "description": "Given an n x m matrix, answer q queries asking for the sum of elements in a specific row.",
+    "constraints": ["1 <= n, m <= 100", "1 <= q <= 100"],
+    "examples": [
+      { "input": "3 3\n1 2 3\n4 5 6\n7 8 9\n2\n1\n3", "output": "6\n24" },
+      { "input": "2 2\n1 1\n2 2\n2\n2\n1", "output": "4\n2" }
+    ],
+    "testCases": [
+      {
+        "input": "3 3\n1 2 3\n4 5 6\n7 8 9\n3\n1\n2\n3",
+        "output": "6\n15\n24",
+        "hidden": false
+      },
+      {
+        "input": "2 4\n1 2 3 4\n5 6 7 8\n2\n1\n2",
+        "output": "10\n26",
+        "hidden": false
+      },
+      {
+        "input": "4 3\n1 2 3\n4 5 6\n7 8 9\n10 11 12\n4\n1\n2\n3\n4",
+        "output": "6\n15\n24\n33",
+        "hidden": false
+      },
+      {
+        "input": "5 2\n1 2\n2 3\n3 4\n4 5\n5 6\n5\n1\n2\n3\n4\n5",
+        "output": "3\n5\n7\n9\n11",
+        "hidden": false
+      },
+      {
+        "input": "6 3\n1 1 1\n2 2 2\n3 3 3\n4 4 4\n5 5 5\n6 6 6\n6\n1\n2\n3\n4\n5\n6",
+        "output": "3\n6\n9\n12\n15\n18",
+        "hidden": false
+      },
+      {
+        "input": "3 5\n1 2 3 4 5\n6 7 8 9 10\n11 12 13 14 15\n3\n1\n2\n3",
+        "output": "15\n40\n65",
+        "hidden": false
+      },
+      {
+        "input": "4 4\n1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16\n4\n1\n2\n3\n4",
+        "output": "10\n26\n42\n58",
+        "hidden": false
+      },
+      {
+        "input": "3 6\n1 1 1 1 1 1\n2 2 2 2 2 2\n3 3 3 3 3 3\n3\n1\n2\n3",
+        "output": "6\n12\n18",
+        "hidden": false
+      },
+      {
+        "input": "2 5\n1 2 3 4 5\n5 4 3 2 1\n2\n1\n2",
+        "output": "15\n15",
+        "hidden": false
+      },
+      {
+        "input": "5 3\n1 2 3\n2 3 4\n3 4 5\n4 5 6\n5 6 7\n5\n1\n2\n3\n4\n5",
+        "output": "6\n9\n12\n15\n18",
+        "hidden": false
+      },
+      {
+        "input": "3 4\n1 1 1 1\n2 2 2 2\n3 3 3 3\n3\n1\n2\n3",
+        "output": "4\n8\n12",
+        "hidden": false
+      },
+      {
+        "input": "4 2\n1 2\n2 3\n3 4\n4 5\n4\n1\n2\n3\n4",
+        "output": "3\n5\n7\n9",
+        "hidden": false
+      },
+      {
+        "input": "3 3\n1 2 1\n2 2 2\n3 3 3\n3\n1\n2\n3",
+        "output": "4\n6\n9",
+        "hidden": false
+      },
+      {
+        "input": "5 2\n1 2\n3 4\n5 6\n7 8\n9 10\n5\n1\n2\n3\n4\n5",
+        "output": "3\n7\n11\n15\n19",
+        "hidden": false
+      },
+      {
+        "input": "6 3\n1 1 1\n1 1 1\n2 2 2\n2 2 2\n3 3 3\n3 3 3\n6\n1\n2\n3\n4\n5\n6",
+        "output": "3\n3\n6\n6\n9\n9",
+        "hidden": false
+      },
+      {
+        "input": "3 4\n1 2 3 4\n5 6 7 8\n9 10 11 12\n3\n1\n2\n3",
+        "output": "10\n26\n42",
+        "hidden": false
+      },
+      {
+        "input": "4 4\n1 1 1 1\n2 2 2 2\n3 3 3 3\n4 4 4 4\n4\n1\n2\n3\n4",
+        "output": "4\n8\n12\n16",
+        "hidden": false
+      },
+      {
+        "input": "2 3\n1 2 3\n4 5 6\n2\n1\n2",
+        "output": "6\n15",
+        "hidden": false
+      },
+      {
+        "input": "5 2\n1 2\n3 4\n5 6\n7 8\n9 10\n5\n1\n2\n3\n4\n5",
+        "output": "3\n7\n11\n15\n19",
+        "hidden": false
+      },
+      {
+        "input": "3 3\n1 2 3\n4 5 6\n7 8 9\n3\n1\n2\n3",
+        "output": "6\n15\n24",
+        "hidden": false
+      }
+    ],
+    "tags": ["matrix", "implementation", "queries"],
+    "difficulty": "Easy",
+    "author": "68a619aa1af9d20169488cf3",
+    "timelimit": 2,
+    "memorylimit": 256,
+    "slug": "matrix-row-sum-queries",
+    "active": false
+  },
+  {
+    "title": "String Prefix Count",
+    "description": "Given n strings, answer q queries asking how many strings start with a given prefix.",
+    "constraints": ["1 <= n <= 1000", "1 <= |string| <= 50", "1 <= q <= 500"],
+    "examples": [
+      {
+        "input": "5\napple\napp\nape\nbat\nball\n3\nap\nb\nc",
+        "output": "3\n2\n0"
+      },
+      { "input": "3\ndog\ndodge\ndoor\n2\ndo\nda", "output": "3\n0" }
+    ],
+    "testCases": [
+      {
+        "input": "5\napple\napp\nape\nbat\nball\n3\nap\nb\nc",
+        "output": "3\n2\n0",
+        "hidden": false
+      },
+      {
+        "input": "6\ncat\ncar\ncab\ndog\ndove\ndrum\n3\nca\ndo\ndr",
+        "output": "3\n2\n1",
+        "hidden": false
+      },
+      {
+        "input": "4\nhello\nhelium\nhill\nhouse\n3\nhe\nhi\nho",
+        "output": "2\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "5\naaa\naab\naac\nabb\nabc\n3\naa\nab\nac",
+        "output": "3\n2\n0",
+        "hidden": false
+      },
+      {
+        "input": "6\ncat\ncar\ncart\ndog\ndove\ndrum\n4\nca\ndo\ndru\ndx",
+        "output": "3\n2\n1\n0",
+        "hidden": false
+      },
+      {
+        "input": "3\napple\nbanana\ncherry\n3\na\nb\nc",
+        "output": "1\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "5\nant\nanchor\nangle\nbat\nball\n3\nan\nba\nc",
+        "output": "3\n2\n0",
+        "hidden": false
+      },
+      {
+        "input": "4\nred\ngreen\nblue\nyellow\n3\nr\ng\nb",
+        "output": "1\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "5\nalpha\nbeta\ngamma\ndelta\nepsilon\n3\na\nb\nd",
+        "output": "1\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "6\none\ntwo\nthree\nfour\nfive\nsix\n3\nt\nf\ns",
+        "output": "1\n2\n1",
+        "hidden": false
+      },
+      {
+        "input": "3\nmoon\nmars\nmercury\n3\nm\nma\nme",
+        "output": "3\n2\n1",
+        "hidden": false
+      },
+      {
+        "input": "5\napple\nape\napril\nbat\nball\n3\nap\nba\nbl",
+        "output": "3\n2\n1",
+        "hidden": false
+      },
+      {
+        "input": "4\nsun\nsand\nsea\nsky\n3\ns\na\nse",
+        "output": "4\n0\n2",
+        "hidden": false
+      },
+      {
+        "input": "3\ntree\ntroop\ntrek\n3\nt\ntr\ntro",
+        "output": "3\n3\n1",
+        "hidden": false
+      },
+      {
+        "input": "6\ndog\ndodge\ndown\ndrum\ndrone\ndash\n3\ndo\ndru\nda",
+        "output": "3\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "5\ncat\ncap\ncar\ncow\ncup\n3\nca\ncu\nco",
+        "output": "3\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "4\nlion\ntiger\nleopard\nlynx\n3\nl\nti\nle",
+        "output": "3\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "3\nred\nblue\ngreen\n3\nr\nb\ng",
+        "output": "1\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "5\nant\nbat\ncat\ndog\neel\n3\na\nb\nc",
+        "output": "1\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "6\nalpha\nbeta\ngamma\ndelta\nepsilon\nzeta\n3\na\nb\ng",
+        "output": "1\n1\n1",
+        "hidden": false
+      },
+      {
+        "input": "4\nmoon\nmars\nmercury\n3\nm\nma\nme",
+        "output": "3\n2\n1",
+        "hidden": false
+      },
+      {
+        "input": "5\napple\nape\napril\nbat\nball\n3\nap\nba\nbl",
+        "output": "3\n2\n1",
+        "hidden": false
+      }
+    ],
+    "tags": ["strings", "prefix", "queries", "counting"],
+    "difficulty": "Easy",
+    "author": "68a619aa1af9d20169488cf3",
+    "timelimit": 2,
+    "memorylimit": 256,
+    "slug": "string-prefix-count",
+    "active": false
+  },
+  {
+    "title": "2D Grid Path Sum",
+    "description": "Given a n x m grid of integers, find the sum of numbers along a path from top-left to bottom-right moving only right or down.",
+    "constraints": ["1 <= n, m <= 50", "-1000 <= grid[i][j] <= 1000"],
+    "examples": [
+      { "input": "2 2\n1 2\n3 4", "output": "10" },
+      { "input": "3 3\n1 2 3\n4 5 6\n7 8 9", "output": "45" }
+    ],
+    "testCases": [
+      { "input": "2 2\n1 2\n3 4", "output": "10", "hidden": false },
+      { "input": "3 3\n1 2 3\n4 5 6\n7 8 9", "output": "45", "hidden": false },
+      {
+        "input": "4 4\n1 1 1 1\n2 2 2 2\n3 3 3 3\n4 4 4 4",
+        "output": "40",
+        "hidden": false
+      },
+      { "input": "2 3\n1 2 3\n4 5 6", "output": "21", "hidden": false },
+      { "input": "3 2\n1 2\n3 4\n5 6", "output": "21", "hidden": false },
+      {
+        "input": "5 5\n1 2 3 4 5\n5 4 3 2 1\n1 2 3 4 5\n5 4 3 2 1\n1 2 3 4 5",
+        "output": "75",
+        "hidden": false
+      },
+      {
+        "input": "3 4\n1 2 3 4\n2 3 4 5\n3 4 5 6",
+        "output": "42",
+        "hidden": false
+      },
+      {
+        "input": "4 3\n1 2 3\n4 5 6\n7 8 9\n10 11 12",
+        "output": "78",
+        "hidden": false
+      },
+      { "input": "2 5\n1 1 1 1 1\n2 2 2 2 2", "output": "15", "hidden": false },
+      { "input": "3 3\n0 1 2\n3 4 5\n6 7 8", "output": "36", "hidden": false },
+      {
+        "input": "4 4\n1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16",
+        "output": "136",
+        "hidden": false
+      },
+      {
+        "input": "3 3\n-1 -2 -3\n-4 -5 -6\n-7 -8 -9",
+        "output": "-45",
+        "hidden": false
+      },
+      { "input": "2 2\n10 20\n30 40", "output": "100", "hidden": false },
+      {
+        "input": "3 4\n1 1 1 1\n1 1 1 1\n1 1 1 1",
+        "output": "12",
+        "hidden": false
+      },
+      { "input": "4 2\n1 2\n3 4\n5 6\n7 8", "output": "36", "hidden": false },
+      {
+        "input": "5 3\n1 1 1\n2 2 2\n3 3 3\n4 4 4\n5 5 5",
+        "output": "45",
+        "hidden": false
+      },
+      { "input": "2 3\n3 3 3\n4 4 4", "output": "21", "hidden": false },
+      { "input": "3 3\n2 2 2\n3 3 3\n4 4 4", "output": "27", "hidden": false },
+      { "input": "3 3\n1 0 1\n0 1 0\n1 0 1", "output": "5", "hidden": false },
+      {
+        "input": "4 4\n1 2 3 4\n0 0 0 0\n1 1 1 1\n2 2 2 2",
+        "output": "25",
+        "hidden": false
+      }
+    ],
+    "tags": ["dp", "grid", "path", "sum", "implementation"],
+    "difficulty": "Medium",
+    "author": "68a619aa1af9d20169488cf3",
+    "timelimit": 2,
+    "memorylimit": 256,
+    "slug": "2d-grid-path-sum",
+    "active": false
+  }
+]

@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./Backend
+      args:
+        - NODE_ENV=production
+    image: oj-backend:latest
+    container_name: oj-backend
+    env_file:
+      - Backend/.env
+    environment:
+      # Use explicit key:value mapping for reliable env passing on Windows
+      PORT: "${PORT:-3000}"
+      CLIENT_URL: "${CLIENT_URL:-http://localhost:5173}"
+      NODE_ENV: "${NODE_ENV:-production}"
+      # IMPORTANT: inside Docker, use the service DNS name `redis`
+      REDIS_HOST: "${REDIS_HOST:-redis}"
+      REDIS_PORT: "${REDIS_PORT:-6379}"
+      # Use MONGO_URI from Backend/.env (Atlas or remote). If not set, fall back to local service
+      MONGO_URI: "${MONGO_URI:-mongodb://mongo:27017/oj}"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - mongo
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: oj-redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    container_name: oj-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+volumes:
+  redis-data:
+  mongo-data:
+
+

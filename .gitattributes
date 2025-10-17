@@ -1,0 +1,22 @@
+# Enforce LF line endings for consistency (good for Node.js in Docker/Linux)
+* text=auto eol=lf
+
+# Mark certain file types as binary so Git won’t mess with them
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+
+# Scripts (always LF)
+*.sh text eol=lf
+
+# Windows batch files (keep CRLF)
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Markdown / Documentation
+*.md text eol=lf
