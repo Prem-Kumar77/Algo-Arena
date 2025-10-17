@@ -12,17 +12,38 @@ import submissionRouter from "./routes/submission.route.js";
 import contestRouter from "./routes/contest.route.js";
 
 const app = express();
+app.set("trust proxy", 1);
 dotenv.config();
 app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 app.set('trust proxy', 1);
 
+// Allow single or comma-separated list of origins via CLIENT_URL
+const allowedOrigins = (process.env.CLIENT_URL || "").split(",").map((o) => o.trim()).filter(Boolean);
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // non-browser or same-origin
+      if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );
+
+// Handle preflight with credentials
+app.options("*", cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+}));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
