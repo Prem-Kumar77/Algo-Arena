@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://algo-arena-eepm-prem-kumars-projects-2383c494.vercel.app/api",
+  baseURL: "https://algo-arena-be3v.onrender.com/api",
   withCredentials: true,
 });
 
