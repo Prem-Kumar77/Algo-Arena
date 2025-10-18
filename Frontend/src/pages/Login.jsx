@@ -23,6 +23,10 @@ const Login = () => {
       const response = await axiosInstance.post("auth/login", form);
 
       if (response.status === 200) {
+        // Store the JWT token in localStorage
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+        }
         navigate("/problems"); // login success
       }
     } catch (err) {

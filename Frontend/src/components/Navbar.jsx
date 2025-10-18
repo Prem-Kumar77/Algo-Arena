@@ -33,10 +33,16 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axiosInstance.post("/auth/logout");
+      // Clear token from localStorage
+      localStorage.removeItem('token');
       navigate("/");
       setUser(null);
     } catch (error) {
       console.error("Error logging out:", error);
+      // Even if logout fails on server, clear local token
+      localStorage.removeItem('token');
+      navigate("/");
+      setUser(null);
     }
   };
 

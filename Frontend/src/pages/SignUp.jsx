@@ -23,6 +23,10 @@ const SignUp = () => {
       const response = await axiosInstance.post("/auth/signup", form);
 
       if (response.status === 201) {
+        // Store the JWT token in localStorage
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+        }
         navigate("/problems"); // successful signup
       }
     } catch (err) {

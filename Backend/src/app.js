@@ -21,13 +21,14 @@ app.set('trust proxy', 1);
 
 // Allow single or comma-separated list of origins via CLIENT_URL
 const allowedOrigins = (process.env.CLIENT_URL || "").split(",").map((o) => o.trim()).filter(Boolean);
-console.log(allowedOrigins);
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
+console.log("Allowed origins:", allowedOrigins);
+
+// If no origins configured, allow all origins in development
+const corsOptions = allowedOrigins.length > 0 
+  ? { origin: allowedOrigins, credentials: true }
+  : { origin: true, credentials: true };
+
+app.use(cors(corsOptions));
 
 // Handle preflight with credentials
 
@@ -39,8 +40,30 @@ app.use("/api/problems/:problemId/discussions", discussionRouter);
 app.use("/api/submissions", submissionRouter);
 app.use("/api/contests", contestRouter);
 
-console.log(process.env.PORT);
-app.listen(process.env.PORT, () => {
+// Add a basic health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
+const PORT = process.env.PORT || 3000;
+
+console.log(`Starting server on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`✅ Server is running on port ${PORT}`);
   connectDB();
-  console.log(`Server is running on port ${process.env.PORT}`);
+});
+
+// Handle uncaught exceptions and unhandled rejections
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  // Don't exit, just log the error
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Don't exit, just log the error
 });
