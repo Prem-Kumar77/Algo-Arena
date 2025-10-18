@@ -13,6 +13,7 @@ import contestRouter from "./routes/contest.route.js";
 
 const app = express();
 app.set("trust proxy", 1);
+
 dotenv.config();
 app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
@@ -20,6 +21,7 @@ app.set('trust proxy', 1);
 
 // Allow single or comma-separated list of origins via CLIENT_URL
 const allowedOrigins = (process.env.CLIENT_URL || "").split(",").map((o) => o.trim()).filter(Boolean);
+console.log(allowedOrigins);
 app.use(
   cors({
     origin: allowedOrigins,
