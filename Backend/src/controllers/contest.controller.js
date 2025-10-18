@@ -197,7 +197,9 @@ async function getContestById(req, res) {
     const now = new Date();
 
     if (req.user?.role === "admin")
-      return res.status(200).json({ contest, isRegistered });
+      return res
+        .status(200)
+        .json({ contest, isRegistered, problems: contest.problems });
 
     if (contest.status === "completed") {
       const problemIds = contest.problems.map((p) => p.problem._id);

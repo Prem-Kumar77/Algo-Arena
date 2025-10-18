@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axios";
-import { format } from "date-fns";
-import { Pencil, Trash } from "lucide-react"; // Using lucide-react icons
+import { useNavigate } from "react-router-dom";
+import { Plus, Pencil, Trash } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import { format } from "date-fns";
 
 const ManageContests = () => {
-  const [contests, setContests] = useState([]);
-  const [expanded, setExpanded] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const [contests, setContests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    async function fetchContests() {
+    const fetchContests = async () => {
       try {
         const res = await axiosInstance.get("/contests");
         const sorted = res.data.sort(
@@ -22,21 +21,13 @@ const ManageContests = () => {
         setContests(sorted);
       } catch (err) {
         console.error(err);
-        setMessage("Failed to load contests");
+        setError("Failed to load contests");
       } finally {
         setLoading(false);
       }
-    }
+    };
     fetchContests();
   }, []);
-
-  const now = new Date();
-
-  const upcoming = contests.filter((c) => new Date(c.startTime) > now);
-  const ongoing = contests.filter(
-    (c) => new Date(c.startTime) <= now && new Date(c.endTime) >= now
-  );
-  const past = contests.filter((c) => new Date(c.endTime) < now);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this contest?"))
@@ -44,138 +35,126 @@ const ManageContests = () => {
 
     try {
       await axiosInstance.delete(`/contests/${id}`);
-      setContests(contests.filter((c) => c._id !== id));
-      setMessage("Contest deleted successfully!");
+      setContests((prev) => prev.filter((c) => c._id !== id));
     } catch (err) {
       console.error(err);
-      setMessage("Failed to delete contest");
+      alert("Failed to delete contest.");
     }
   };
 
-  const renderContests = (list) => {
-    return list.map((contest) => {
-      const isExpanded = expanded === contest._id;
-      const isPast = new Date(contest.endTime) < now;
-
-      return (
-        <div
-          key={contest._id}
-          className="border border-gray-500 p-4 rounded-2xl shadow-none cursor-pointer bg-[#1f1f1f]"
-        >
-          <div
-            onClick={() => setExpanded(isExpanded ? null : contest._id)}
-            className="flex justify-between items-center"
-          >
-            <h2 className="text-white font-semibold text-lg">
-              {contest.title}
-            </h2>
-            <svg
-              className={`w-5 h-5 text-gray-400 transform transition-transform duration-200 ${
-                isExpanded ? "rotate-180" : "rotate-0"
-              }`}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </div>
-
-          {isExpanded && (
-            <div className="mt-2 space-y-2">
-              <p className="text-gray-400 text-sm">{contest.description}</p>
-              <p className="text-gray-300 text-sm">
-                Start:{" "}
-                {format(new Date(contest.startTime), "dd MMM yyyy, HH:mm")} |
-                End: {format(new Date(contest.endTime), "dd MMM yyyy, HH:mm")}
-              </p>
-              <p className="text-gray-300 text-sm">
-                Participants: {contest.participants} | Problems:{" "}
-                {contest.problems.length}
-              </p>
-
-              <div className="flex gap-2 mt-2">
-                <button
-                  onClick={() => navigate(`/admin/edit-contest/${contest._id}`)}
-                  className={`p-2 rounded border border-gray-500 text-gray-300 flex items-center justify-center ${
-                    isPast
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:text-white hover:border-white"
-                  }`}
-                  disabled={isPast}
-                  title="Edit Contest"
-                >
-                  <Pencil size={18} />
-                </button>
-
-                <button
-                  onClick={() => handleDelete(contest._id)}
-                  className={`p-2 rounded border border-gray-500 text-gray-300 flex items-center justify-center ${
-                    isPast
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:text-white hover:border-white"
-                  }`}
-                  disabled={isPast}
-                  title="Delete Contest"
-                >
-                  <Trash size={18} />
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    });
-  };
-
   return (
-    <div className="flex flex-col bg-[#141414]">
+    <div className="min-h-screen bg-[#141414] text-white">
       <Navbar />
-      <div className="max-w-5xl mx-auto p-6 space-y-6 flex-1 w-full bg-[#141414]">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold text-white">Manage Contests</h1>
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-semibold">Manage Contests</h1>
           <button
             onClick={() => navigate("/admin/add-contest")}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition duration-200"
           >
+            <Plus size={18} />
             Add Contest
           </button>
         </div>
 
-        {message && <p className="text-red-400 mb-4">{message}</p>}
-
         {loading ? (
-          <p className="text-gray-300">Loading contests...</p>
+          <div className="flex justify-center items-center h-[60vh]">
+            <svg
+              className="animate-spin h-8 w-8 text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              ></path>
+            </svg>
+          </div>
+        ) : error ? (
+          <p className="text-red-400">{error}</p>
         ) : contests.length === 0 ? (
-          <p className="text-gray-300">No contests available.</p>
+          <p className="text-gray-400">No contests found.</p>
         ) : (
-          <div className="space-y-6">
-            {ongoing.length > 0 && (
-              <div>
-                <h2 className="text-white font-medium mb-2">Ongoing</h2>
-                <div className="space-y-3">{renderContests(ongoing)}</div>
-              </div>
-            )}
+          <div className="overflow-x-auto border border-gray-800 rounded-xl">
+            <table className="w-full text-left border-collapse">
+              <thead className="bg-[#1f1f1f] text-gray-300">
+                <tr>
+                  <th className="px-6 py-3 border-b border-gray-800">Title</th>
+                  <th className="px-6 py-3 border-b border-gray-800">
+                    Start Time
+                  </th>
+                  <th className="px-6 py-3 border-b border-gray-800">
+                    End Time
+                  </th>
+                  <th className="px-6 py-3 border-b border-gray-800">
+                    Participants
+                  </th>
+                  <th className="px-6 py-3 border-b border-gray-800 text-center">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {contests.map((c) => {
+                  const now = new Date();
+                  const isPast = new Date(c.endTime) < now;
 
-            {upcoming.length > 0 && (
-              <div>
-                <h2 className="text-white font-medium mb-2">Upcoming</h2>
-                <div className="space-y-3">{renderContests(upcoming)}</div>
-              </div>
-            )}
-
-            {past.length > 0 && (
-              <div>
-                <h2 className="text-white font-medium mb-2">Past</h2>
-                <div className="space-y-3">{renderContests(past)}</div>
-              </div>
-            )}
+                  return (
+                    <tr
+                      key={c._id}
+                      className="hover:bg-[#1c1c1c] transition duration-150"
+                    >
+                      <td className="px-6 py-4 border-b border-gray-800">
+                        {c.title}
+                      </td>
+                      <td className="px-6 py-4 border-b border-gray-800">
+                        {format(new Date(c.startTime), "dd MMM yyyy, HH:mm")}
+                      </td>
+                      <td className="px-6 py-4 border-b border-gray-800">
+                        {format(new Date(c.endTime), "dd MMM yyyy, HH:mm")}
+                      </td>
+                      <td className="px-6 py-4 border-b border-gray-800">
+                        {c.participants || 0}
+                      </td>
+                      <td className="px-6 py-4 border-b border-gray-800 text-center">
+                        <div className="flex justify-center gap-3">
+                          <button
+                            onClick={() =>
+                              navigate(`/admin/edit-contest/${c._id}`)
+                            }
+                            className={`text-blue-400 hover:text-blue-500 transition ${
+                              isPast ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
+                            disabled={isPast}
+                          >
+                            <Pencil size={18} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(c._id)}
+                            className={`text-red-400 hover:text-red-500 transition ${
+                              isPast ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
+                            disabled={isPast}
+                          >
+                            <Trash size={18} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

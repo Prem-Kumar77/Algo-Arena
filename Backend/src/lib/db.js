@@ -7,7 +7,7 @@ const connectDB = async () => {
       console.log("⚠️ Server will start without database connection");
       return;
     }
-    
+
     await mongoose.connect(process.env.MONGO_URI);
     console.log("✅ MongoDB connected");
   } catch (error) {

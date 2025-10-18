@@ -164,10 +164,11 @@ const Profile = () => {
   return (
     <div className="min-h-screen text-white bg-[#141414]">
       <Navbar />
-      <div className="max-w-3xl mx-auto p-6 space-y-6">
+      <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
         {/* Profile Info */}
-        <div className="flex items-center gap-6 border border-gray-700 p-6 rounded-2xl shadow-lg relative">
-          <div className="relative w-24 h-24">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 border border-gray-700 p-4 sm:p-6 rounded-2xl shadow-lg relative">
+          {/* Profile Picture */}
+          <div className="relative w-24 h-24 flex-shrink-0">
             <img
               src={preview || editableProfile.profilePicture}
               alt="Profile"
@@ -188,12 +189,12 @@ const Profile = () => {
                     r="10"
                     stroke="currentColor"
                     strokeWidth="4"
-                  ></circle>
+                  />
                   <path
                     className="opacity-75"
                     fill="currentColor"
                     d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                  ></path>
+                  />
                 </svg>
               ) : (
                 <>
@@ -209,10 +210,11 @@ const Profile = () => {
             </label>
           </div>
 
-          <div className="flex flex-col gap-2">
+          {/* Profile Details */}
+          <div className="flex flex-col flex-grow gap-2 w-full">
             {/* Username */}
-            <div className="flex flex-col">
-              <div className="flex items-center">
+            <div className="flex flex-col w-full">
+              <div className="flex items-center w-full">
                 <input
                   type="text"
                   value={editableProfile.username}
@@ -223,11 +225,11 @@ const Profile = () => {
                       ? "border-gray-600 focus:border-blue-500"
                       : "border-transparent"
                   } outline-none text-xl font-semibold p-0 m-0 flex-grow`}
-                  style={{ lineHeight: "1" }} // ensures tight vertical alignment
+                  style={{ lineHeight: "1" }}
                 />
                 <Pencil
                   size={16}
-                  className="text-gray-400 cursor-pointer ml-1" // small margin if needed
+                  className="text-gray-400 cursor-pointer ml-1"
                   onClick={() => startEditing("username")}
                 />
               </div>
@@ -237,8 +239,8 @@ const Profile = () => {
             </div>
 
             {/* Email */}
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col w-full">
+              <div className="flex items-center gap-2 w-full">
                 <input
                   type="email"
                   value={editableProfile.email}
@@ -248,7 +250,7 @@ const Profile = () => {
                     editingField === "email"
                       ? "border-gray-600 focus:border-blue-500"
                       : "border-transparent"
-                  } outline-none text-gray-300`}
+                  } outline-none text-gray-300 flex-grow`}
                 />
                 <Pencil
                   size={16}
@@ -261,16 +263,18 @@ const Profile = () => {
               )}
             </div>
 
+            {/* Role */}
             <span className="inline-block mt-1 px-3 py-1 text-sm bg-gray-600 rounded-full w-fit">
               {editableProfile.role}
             </span>
           </div>
 
+          {/* Save Button */}
           {isEditing && (
             <button
               onClick={handleSave}
               disabled={updating}
-              className="absolute top-4 right-4 flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded-lg disabled:opacity-50"
+              className="absolute top-4 right-4 flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded-lg disabled:opacity-50 sm:static sm:self-start"
             >
               <Save size={14} /> Save
             </button>
@@ -290,8 +294,9 @@ const Profile = () => {
           </p>
         )}
 
-        <div className="flex items-center gap-12 px-3 py-3 rounded-2xl border border-gray-700 justify-around">
-          <div className="relative w-[200px] h-[200px]">
+        {/* Stats & Circle */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 px-3 py-3 rounded-2xl border border-gray-700 justify-around">
+          <div className="relative w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] flex-shrink-0">
             <svg width={300} height={300}>
               {/* Easy */}
               <circle
@@ -373,34 +378,39 @@ const Profile = () => {
             </svg>
 
             {/* Center text */}
-            <div className="absolute top-[60px] left-[60px] w-[60px] text-center">
-              <p className="text-2xl font-semibold">
+            <div className="absolute top-[55px] left-[55px] w-[70px] text-center">
+              <p className="text-xl sm:text-2xl font-semibold">
                 {totalSolved}/{stats?.total}
               </p>
               <p className="text-sm text-gray-400">Solved</p>
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="flex flex-col gap-3">
-            {["Easy", "Medium", "Hard"].map((level) => (
-              <div key={level} className="flex items-center gap-2">
-                <span
-                  className="w-4 h-4 rounded-full"
-                  style={{ backgroundColor: difficultyColors[level].dark }}
-                />
-                <span className="text-white">
-                  {level}: {solvedCounts[level] || 0}/
-                  {stats?.[level.toLowerCase()] || 0}
-                </span>
-              </div>
-            ))}
+          {/* Stats Labels */}
+          <div className="flex w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] flex-shrink-0 items-center justify-center">
+            <div className="flex flex-col gap-2 ">
+              {["Easy", "Medium", "Hard"].map((level) => (
+                <div
+                  key={level}
+                  className="flex items-center gap-2 text-sm sm:text-base"
+                >
+                  <span
+                    className="w-4 h-4 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: difficultyColors[level].dark }}
+                  />
+                  <span className="text-white">
+                    {level}: {solvedCounts[level] || 0}/
+                    {stats?.[level.toLowerCase()] || 0}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Solved Problems List */}
-        <div className="border border-gray-700 p-6 rounded-2xl max-h-[400px] overflow-y-auto">
-          <h2 className="text-xl font-semibold mt-6 mb-3">Solved Problems</h2>
+        <div className="border border-gray-700 p-4 sm:p-6 rounded-2xl max-h-[400px] overflow-y-auto">
+          <h2 className="text-xl font-semibold mt-2 mb-3">Solved Problems</h2>
           {solved.length === 0 ? (
             <p className="text-gray-400">No problems solved yet.</p>
           ) : (
@@ -408,15 +418,14 @@ const Profile = () => {
               {solved.map((problem, idx) => (
                 <div
                   key={idx}
-                  className="flex justify-between items-center border border-gray-700 p-4 rounded-xl"
+                  className="flex justify-between items-start sm:items-center border border-gray-700 p-3 rounded-xl gap-2"
                 >
                   <div>
                     <p className="font-medium">{problem.title}</p>
                     <p
                       className={`text-sm ${
-                        difficultyColorsText[problem.difficulty]
-                          ? difficultyColorsText[problem.difficulty]
-                          : "text-gray-400"
+                        difficultyColorsText[problem.difficulty] ||
+                        "text-gray-400"
                       }`}
                     >
                       {problem.difficulty}

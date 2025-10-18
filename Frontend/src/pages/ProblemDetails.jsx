@@ -136,7 +136,7 @@ const ProblemDetails = () => {
   return (
     <div className="h-full flex flex-col bg-[#1a1a1a] text-white">
       {/* Header */}
-      <div className="sticky top-0 flex items-center justify-between px-10 py-2 border-b border-gray-800 bg-[#1a1a1a] z-50">
+      <div className="sticky top-0 flex items-center justify-between md:px-10 px-3 py-2 border-b border-gray-800 bg-[#1a1a1a] z-50">
         {/* Left: Problems link */}
         <div className="flex items-center gap-4 pl-4 pr-4">
           <img
@@ -182,7 +182,7 @@ const ProblemDetails = () => {
           </button>
 
           {!user && (
-            <div className="text-white text-center py-2">
+            <div className="text-white text-center py-2 hidden md:block">
               Please{" "}
               <span
                 className="cursor-pointer text-blue-500 hover:text-blue-600 py-2"
@@ -196,49 +196,51 @@ const ProblemDetails = () => {
         </div>
 
         {/* Right: Timer + Profile */}
-        <div className="flex items-center space-x-6 pr-4">
-          {/* Timer */}
-          <div className="flex items-center space-x-3 px-3 py-1 rounded-lg">
-            <span className="font-mono text-lg">
-              {Math.floor(timer / 60)
-                .toString()
-                .padStart(2, "0")}
-              :{(timer % 60).toString().padStart(2, "0")}
-            </span>
+        <div className="hidden md:block">
+          <div className="flex items-center space-x-6 pr-4">
+            {/* Timer */}
+            <div className="flex items-center space-x-3 px-3 py-1 rounded-lg">
+              <span className="font-mono text-lg">
+                {Math.floor(timer / 60)
+                  .toString()
+                  .padStart(2, "0")}
+                :{(timer % 60).toString().padStart(2, "0")}
+              </span>
 
-            <div className="flex items-center space-x-2">
-              {!isRunning ? (
-                <Play
+              <div className="flex items-center space-x-2">
+                {!isRunning ? (
+                  <Play
+                    className="h-5 w-5 text-gray-400 cursor-pointer hover:scale-110 transition-transform"
+                    onClick={startTimer}
+                  />
+                ) : (
+                  <Pause
+                    className="h-5 w-5 text-gray-400 cursor-pointer hover:scale-110 transition-transform"
+                    onClick={pauseTimer}
+                  />
+                )}
+                <RotateCcw
                   className="h-5 w-5 text-gray-400 cursor-pointer hover:scale-110 transition-transform"
-                  onClick={startTimer}
+                  onClick={resetTimer}
                 />
-              ) : (
-                <Pause
-                  className="h-5 w-5 text-gray-400 cursor-pointer hover:scale-110 transition-transform"
-                  onClick={pauseTimer}
-                />
-              )}
-              <RotateCcw
-                className="h-5 w-5 text-gray-400 cursor-pointer hover:scale-110 transition-transform"
-                onClick={resetTimer}
-              />
+              </div>
             </div>
+
+            {/* Profile */}
+            {user && (
+              <div
+                className="flex items-center space-x-2 cursor-pointer"
+                onClick={() => navigate("/profile")}
+              >
+                <span className="text-gray-200">{user.name}</span>
+                <img
+                  src={user.profilePicture}
+                  alt="Profile"
+                  className="h-8 w-8 rounded-full border border-gray-700"
+                />
+              </div>
+            )}
           </div>
-
-          {/* Profile */}
-          {user && (
-            <div
-              className="flex items-center space-x-2 cursor-pointer"
-              onClick={() => navigate("/profile")}
-            >
-              <span className="text-gray-200">{user.name}</span>
-              <img
-                src={user.profilePicture}
-                alt="Profile"
-                className="h-8 w-8 rounded-full border border-gray-700"
-              />
-            </div>
-          )}
         </div>
       </div>
 

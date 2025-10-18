@@ -25,7 +25,8 @@ const SignUp = () => {
       if (response.status === 201) {
         // Store the JWT token in localStorage
         if (response.data.token) {
-          localStorage.setItem('token', response.data.token);
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("loggedIn", "true");
         }
         navigate("/problems"); // successful signup
       }
@@ -83,7 +84,7 @@ const SignUp = () => {
     <div className="h-screen flex flex-col bg-[#141414]">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
-        <div className="bg-[#1e1e1e] p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <div className="bg-[#1e1e1e] p-8 rounded-2xl shadow-lg w-full max-w-md m-4">
           <h2 className="text-2xl font-bold text-center mb-6 text-white">
             Create Account
           </h2>

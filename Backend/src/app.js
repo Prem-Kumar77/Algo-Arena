@@ -17,21 +17,24 @@ app.set("trust proxy", 1);
 dotenv.config();
 app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
 // Allow single or comma-separated list of origins via CLIENT_URL
-const allowedOrigins = (process.env.CLIENT_URL || "").split(",").map((o) => o.trim()).filter(Boolean);
+const allowedOrigins = (process.env.CLIENT_URL || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
 console.log("Allowed origins:", allowedOrigins);
 
 // If no origins configured, allow all origins in development
-const corsOptions = allowedOrigins.length > 0 
-  ? { origin: allowedOrigins, credentials: true }
-  : { origin: true, credentials: true };
+const corsOptions =
+  allowedOrigins.length > 0
+    ? { origin: allowedOrigins, credentials: true }
+    : { origin: true, credentials: true };
 
 app.use(cors(corsOptions));
 
 // Handle preflight with credentials
-
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
@@ -41,11 +44,11 @@ app.use("/api/submissions", submissionRouter);
 app.use("/api/contests", contestRouter);
 
 // Add a basic health check endpoint
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
   });
 });
 
@@ -58,12 +61,12 @@ app.listen(PORT, () => {
 });
 
 // Handle uncaught exceptions and unhandled rejections
-process.on('uncaughtException', (err) => {
-  console.error('Uncaught Exception:', err);
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
   // Don't exit, just log the error
 });
 
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection at:", promise, "reason:", reason);
   // Don't exit, just log the error
 });

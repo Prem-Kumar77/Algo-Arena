@@ -34,13 +34,14 @@ const Navbar = () => {
     try {
       await axiosInstance.post("/auth/logout");
       // Clear token from localStorage
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
+      localStorage.removeItem("loggedIn");
       navigate("/");
       setUser(null);
     } catch (error) {
       console.error("Error logging out:", error);
       // Even if logout fails on server, clear local token
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       navigate("/");
       setUser(null);
     }
@@ -51,7 +52,11 @@ const Navbar = () => {
       <div className="flex justify-between items-center max-w-7xl mx-auto px-6 py-4">
         <Link to="/">
           <div className="flex gap-3 items-center cursor-pointer group">
-            <img src="/algoarena.svg" alt="AlgoArena" className="w-11 h-11 transition-transform duration-200 group-hover:scale-105" />
+            <img
+              src="/algoarena.svg"
+              alt="AlgoArena"
+              className="w-11 h-11 transition-transform duration-200 group-hover:scale-105"
+            />
             <span className="text-[22px] font-semibold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-indigo-300 to-cyan-300 group-hover:from-indigo-300 group-hover:to-cyan-200 transition-colors duration-200">
               AlgoArena
             </span>

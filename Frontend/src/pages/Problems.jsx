@@ -98,9 +98,10 @@ const Problems = () => {
       <div className="flex-grow max-w-5xl w-full mx-auto p-6">
         <h1 className="text-2xl font-bold mb-6">Problems</h1>
 
-        <div className="flex gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row gap-4 mb-6 items-start sm:items-center">
+          {/* Difficulty Dropdown */}
           <select
-            className="bg-[#1a1a1a] border border-gray-700 rounded px-3 md:py-2 h-10"
+            className="bg-[#1a1a1a] border border-gray-700 rounded px-3 py-2 w-full sm:w-40 h-10"
             value={selectedDifficulty}
             onChange={(e) => {
               const value = e.target.value;
@@ -114,93 +115,84 @@ const Problems = () => {
               </option>
             ))}
           </select>
-          <div className="w-80">
-            <div>
-              <Select
-                isMulti
-                name="tags"
-                options={tagOptions}
-                className="text-black"
-                classNamePrefix="select"
-                placeholder="Filter by Tags..."
-                value={tagOptions.filter((option) =>
-                  selectedTags.includes(option.value)
-                )}
-                onChange={(selectedOptions) => {
-                  const values = selectedOptions
-                    ? selectedOptions.map((opt) => opt.value)
-                    : [];
-                  setSelectedTags(values);
-                }}
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    backgroundColor: "#1a1a1a",
-                    borderColor: "#333",
-                    color: "white",
-                    maxHeight: "80px",
-                    overflowY: "auto",
-                    scrollbarWidth: "none",
-                    msOverflowStyle: "none",
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    maxHeight: "38px",
-                    overflowY: "auto",
-                    display: "flex",
-                    flexWrap: "wrap",
-                    scrollbarWidth: "none",
-                    msOverflowStyle: "none",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#1a1a1a",
-                    color: "white",
-                  }),
-                  multiValue: (base) => ({
-                    ...base,
-                    backgroundColor: "#333",
-                    color: "white",
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    color: "white",
-                  }),
-                  multiValueRemove: (base) => ({
-                    ...base,
-                    color: "#ccc",
-                    ":hover": { backgroundColor: "#333", color: "white" },
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    color: "white",
-                  }),
-                  option: (base, { isFocused, isSelected }) => ({
-                    ...base,
-                    backgroundColor: isSelected
-                      ? "#1e40af"
-                      : isFocused
-                        ? "#1e40af"
-                        : "transparent",
 
-                    color: isSelected || isFocused ? "white" : "#ccc",
-                    cursor: "pointer",
-                  }),
-                }}
-              />
-            </div>
+          {/* Tags Multi-Select */}
+          <div className="w-full sm:w-80">
+            <Select
+              isMulti
+              name="tags"
+              options={tagOptions}
+              className="text-black"
+              classNamePrefix="select"
+              placeholder="Filter by Tags..."
+              value={tagOptions.filter((option) =>
+                selectedTags.includes(option.value)
+              )}
+              onChange={(selectedOptions) => {
+                const values = selectedOptions
+                  ? selectedOptions.map((opt) => opt.value)
+                  : [];
+                setSelectedTags(values);
+              }}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  backgroundColor: "#1a1a1a",
+                  borderColor: "#333",
+                  color: "white",
+                  minHeight: "40px",
+                }),
+                valueContainer: (base) => ({
+                  ...base,
+                  maxHeight: "38px",
+                  overflowY: "auto",
+                  display: "flex",
+                  flexWrap: "wrap",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#1a1a1a",
+                  color: "white",
+                }),
+                multiValue: (base) => ({
+                  ...base,
+                  backgroundColor: "#333",
+                  color: "white",
+                }),
+                multiValueLabel: (base) => ({ ...base, color: "white" }),
+                multiValueRemove: (base) => ({
+                  ...base,
+                  color: "#ccc",
+                  ":hover": { backgroundColor: "#333", color: "white" },
+                }),
+                input: (base) => ({ ...base, color: "white" }),
+                option: (base, { isFocused, isSelected }) => ({
+                  ...base,
+                  backgroundColor: isSelected
+                    ? "#1e40af"
+                    : isFocused
+                      ? "#1e40af"
+                      : "transparent",
+                  color: isSelected || isFocused ? "white" : "#ccc",
+                  cursor: "pointer",
+                }),
+              }}
+            />
           </div>
+
+          {/* Reset Button */}
           <button
             onClick={() => {
               setSelectedDifficulty("All");
               setSelectedTags([]);
               setFilteredProblems(problems);
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded h-10"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded w-full sm:w-auto h-10"
           >
             Reset
           </button>
         </div>
+
         <div className="grid grid-cols-3 md:grid-cols-4 gap-4 items-center text-gray-400 border-b border-gray-700 pb-2 mb-4 text-sm font-medium p-3">
           {/* Title column with reserved tick space */}
           <div className="col-span-2 flex items-center gap-2">

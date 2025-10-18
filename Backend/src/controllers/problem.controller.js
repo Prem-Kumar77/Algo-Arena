@@ -5,7 +5,7 @@ import Stats from "../models/stats.model.js";
 
 async function getAllProblems(req, res) {
   try {
-    console.log(req);
+    // console.log(req);
     const isAdmin = req.user && req.user.role === "admin";
 
     // Build query

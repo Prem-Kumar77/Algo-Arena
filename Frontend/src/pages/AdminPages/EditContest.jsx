@@ -5,9 +5,8 @@ import axiosInstance from "@/utils/axios";
 const formatForInput = (isoString) => {
   if (!isoString) return "";
   const d = new Date(isoString);
-  const tzOffset = d.getTimezoneOffset() * 60000; // in ms
-  const localISOTime = new Date(d - tzOffset).toISOString().slice(0, 16);
-  return localISOTime;
+  const tzOffset = d.getTimezoneOffset() * 60000;
+  return new Date(d - tzOffset).toISOString().slice(0, 16);
 };
 
 const EditContest = () => {
@@ -17,21 +16,23 @@ const EditContest = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
-  const [errors, setErrors] = useState({});
-  const [allProblems, setAllProblems] = useState([]); // All available problems
+  const [allProblems, setAllProblems] = useState([]);
   const [contestData, setContestData] = useState({
     title: "",
     description: "",
     startTime: "",
     endTime: "",
-    problems: [], // [{ problemId, title, points }]
+    problems: [], // { problemId, title, points }
   });
 
-  // Helper to safely extract _id
-  const getId = (idField) =>
-    idField?._id ? getId(idField._id) : idField?.$oid || idField;
+  const getId = (idField) => {
+    if (!idField) return null;
+    if (typeof idField === "string") return idField;
+    if (idField._id) return idField._id;
+    if (idField.$oid) return idField.$oid;
+    return null;
+  };
 
-  // Fetch contest and all problems
   useEffect(() => {
     async function fetchData() {
       try {
@@ -40,17 +41,16 @@ const EditContest = () => {
           axiosInstance.get("/problems"),
         ]);
 
-        const contest = contestRes.data.contest;
-
         const allProblemsMapped = (problemsRes.data || []).map((p) => ({
           ...p,
           _id: getId(p._id),
         }));
 
+        const contest = contestRes.data?.contest || {};
         const contestProblems = (contest.problems || []).map((p) => ({
-          problemId: getId(p.problem?._id),
-          title: p.problem?.title || "",
-          points: p.points,
+          problemId: getId(p.problem?._id || p.problem),
+          title: p.problem?.title || p.title || "Untitled",
+          points: p.points || 500,
         }));
 
         setAllProblems(allProblemsMapped);
@@ -72,27 +72,20 @@ const EditContest = () => {
     fetchData();
   }, [id]);
 
-  // Handle text inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContestData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Update points for a problem
-  const handleProblemChange = (index, field, value) => {
-    const updated = [...contestData.problems];
-    updated[index][field] = field === "points" ? Number(value) : value;
-    setContestData((prev) => ({ ...prev, problems: updated }));
+  const handlePointsChange = (problemId, points) => {
+    setContestData((prev) => ({
+      ...prev,
+      problems: prev.problems.map((p) =>
+        p.problemId === problemId ? { ...p, points: Number(points) } : p
+      ),
+    }));
   };
 
-  // Remove a problem
-  const removeProblem = (index) => {
-    const updated = [...contestData.problems];
-    updated.splice(index, 1);
-    setContestData((prev) => ({ ...prev, problems: updated }));
-  };
-
-  // Add a problem
   const addProblem = (problem) => {
     if (!problem?._id) return;
     if (contestData.problems.some((p) => p.problemId === problem._id)) return;
@@ -105,7 +98,13 @@ const EditContest = () => {
     }));
   };
 
-  // Submit contest update
+  const removeProblem = (problemId) => {
+    setContestData((prev) => ({
+      ...prev,
+      problems: prev.problems.filter((p) => p.problemId !== problemId),
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -116,11 +115,6 @@ const EditContest = () => {
 
     if (new Date(contestData.startTime) >= new Date(contestData.endTime)) {
       setMessage("End time must be after start time");
-      return;
-    }
-
-    if (contestData.problems.some((p) => !p.problemId)) {
-      setMessage("One or more selected problems are invalid");
       return;
     }
 
@@ -153,11 +147,23 @@ const EditContest = () => {
     );
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-[#1f1f1f] rounded-2xl shadow-lg mt-6 text-white">
-      <h1 className="text-2xl font-semibold mb-6">Edit Contest</h1>
-      {message && <p className="text-red-400 mb-4">{message}</p>}
+    <div className="max-w-5xl mx-auto p-6">
+      <h1 className="text-2xl font-semibold mb-6 text-white">Edit Contest</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      {message && (
+        <p
+          className={`mb-4 font-medium ${
+            message.includes("successfully") ? "text-green-400" : "text-red-400"
+          }`}
+        >
+          {message}
+        </p>
+      )}
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-[#1f1f1f] p-6 rounded-2xl space-y-5 shadow-lg"
+      >
         {/* Title */}
         <div>
           <label className="block text-gray-300 mb-1">Title</label>
@@ -166,7 +172,7 @@ const EditContest = () => {
             name="title"
             value={contestData.title}
             onChange={handleChange}
-            className="w-full p-2 rounded border border-gray-500 bg-[#2a2a2a] text-white"
+            className="w-full p-2 rounded bg-[#2a2a2a] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
@@ -178,32 +184,32 @@ const EditContest = () => {
             name="description"
             value={contestData.description}
             onChange={handleChange}
-            rows={3}
-            className="w-full p-2 rounded border border-gray-500 bg-[#2a2a2a] text-white"
+            rows="4"
+            className="w-full p-2 rounded bg-[#2a2a2a] text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
           />
         </div>
 
-        {/* Start/End Time */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
+        {/* Start / End */}
+        <div className="flex gap-4">
+          <div className="w-1/2">
             <label className="block text-gray-300 mb-1">Start Time</label>
             <input
               type="datetime-local"
               name="startTime"
               value={contestData.startTime}
               onChange={handleChange}
-              className="w-full p-2 rounded border border-gray-500 bg-[#2a2a2a] text-white"
+              className="w-full p-2 rounded bg-[#2a2a2a] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
-          <div>
+          <div className="w-1/2">
             <label className="block text-gray-300 mb-1">End Time</label>
             <input
               type="datetime-local"
               name="endTime"
               value={contestData.endTime}
               onChange={handleChange}
-              className="w-full p-2 rounded border border-gray-500 bg-[#2a2a2a] text-white"
+              className="w-full p-2 rounded bg-[#2a2a2a] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -211,73 +217,57 @@ const EditContest = () => {
 
         {/* Problems */}
         <div>
-          <h2 className="text-white font-medium mb-2">Select Problems</h2>
-          {allProblems.length === 0 ? (
-            <p className="text-gray-400">Loading problems...</p>
-          ) : (
-            <div className="max-h-64 overflow-y-auto border border-gray-500 p-2 rounded bg-[#2b2b2b]">
-              {allProblems.map((prob) => {
-                const existingIndex = contestData.problems.findIndex(
-                  (p) => p.problemId === prob._id
-                );
-                const existing =
-                  existingIndex !== -1
-                    ? contestData.problems[existingIndex]
-                    : null;
-
-                return (
-                  <div
-                    key={prob._id}
-                    className="flex justify-between items-center p-1 border-b border-gray-700"
-                  >
-                    <span className="text-white">{prob.title}</span>
-
-                    {existing ? (
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="number"
-                          value={existing.points}
-                          min={0}
-                          onChange={(e) =>
-                            handleProblemChange(
-                              existingIndex,
-                              "points",
-                              e.target.value
-                            )
-                          }
-                          className="w-16 p-1 rounded border border-gray-500 bg-[#1f1f1f] text-white text-sm"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeProblem(existingIndex)}
-                          className="px-2 py-1 text-sm bg-red-600 rounded hover:bg-red-700"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    ) : (
+          <label className="block text-gray-300 mb-2">Select Problems</label>
+          <div className="max-h-64 overflow-y-auto border border-gray-600 p-3 rounded bg-[#2a2a2a] space-y-2">
+            {allProblems.map((p) => {
+              const selected = contestData.problems.find(
+                (pr) => pr.problemId === p._id
+              );
+              return (
+                <div
+                  key={p._id}
+                  className="flex justify-between items-center border-b border-gray-700 pb-2"
+                >
+                  <span className="text-white">{p.title}</span>
+                  {selected ? (
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="number"
+                        value={selected.points}
+                        min={0}
+                        onChange={(e) =>
+                          handlePointsChange(p._id, e.target.value)
+                        }
+                        className="w-20 p-1 rounded bg-[#1f1f1f] text-white border border-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      />
                       <button
                         type="button"
-                        onClick={() => addProblem(prob)}
-                        className="px-2 py-1 text-sm bg-green-600 rounded hover:bg-green-700"
+                        onClick={() => removeProblem(p._id)}
+                        className="px-3 py-1 rounded bg-gray-700 text-white text-sm hover:bg-gray-600 focus:ring-2 focus:ring-blue-500"
                       >
-                        Add
+                        Remove
                       </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => addProblem(p)}
+                      className="px-3 py-1 rounded bg-blue-600 text-white text-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
+                    >
+                      Add
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Submit */}
         <button
           type="submit"
           disabled={submitting}
-          className={`w-full py-2 mt-4 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition ${
-            submitting ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg disabled:opacity-50 w-full"
         >
           {submitting ? "Updating..." : "Update Contest"}
         </button>

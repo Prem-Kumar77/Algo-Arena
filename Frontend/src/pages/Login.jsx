@@ -25,7 +25,8 @@ const Login = () => {
       if (response.status === 200) {
         // Store the JWT token in localStorage
         if (response.data.token) {
-          localStorage.setItem('token', response.data.token);
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("loggedIn", "true");
         }
         navigate("/problems"); // login success
       }
@@ -86,7 +87,7 @@ const Login = () => {
   return (
     <div className="h-screen flex flex-col bg-[#141414]">
       <Navbar />
-      <div className="flex-grow flex items-center justify-center">
+      <div className="flex-grow flex items-center justify-center m-4">
         <div className="bg-[#1e1e1e] rounded-2xl shadow-lg w-full max-w-md p-8">
           <h2 className="font-bold text-2xl text-center text-white mb-6">
             Login

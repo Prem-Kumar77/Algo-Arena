@@ -79,16 +79,17 @@ const HomePage = () => {
             {!user && (
               <Link
                 to="/signup"
-                className="bg-indigo-500 hover:bg-indigo-600 transition-colors px-6 py-3 rounded font-semibold flex items-center gap-2"
+                className="bg-indigo-500 hover:bg-indigo-600 transition-colors px-6 py-3 rounded font-semibold flex items-center gap-2 w-full sm:w-auto justify-center"
               >
                 <FaRocket /> Get Started
               </Link>
             )}
             <Link
               to="/problems"
-              className="bg-gray-700 hover:bg-gray-600 transition-colors px-6 py-3 rounded font-semibold flex items-center gap-2"
+              className="bg-gray-700 hover:bg-gray-600 transition-colors px-6 py-3 rounded font-semibold flex items-center gap-2 w-full sm:w-auto justify-center"
             >
-              <FaCode /> Practice Problems
+              <FaCode /> Practice{" "}
+              <span className="hidden md:block">Problems</span>
             </Link>
           </div>
         </div>
@@ -155,13 +156,13 @@ const HomePage = () => {
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 to="/problems"
-                className="bg-indigo-500 hover:bg-indigo-600 transition-colors px-6 py-3 rounded font-semibold flex items-center gap-2"
+                className="bg-indigo-500 hover:bg-indigo-600 transition-colors px-6 py-3 rounded font-semibold flex items-center gap-2 w-full sm:w-auto justify-center"
               >
                 <FaCode /> Continue Practice
               </Link>
               <Link
                 to="/contests"
-                className="bg-gray-700 hover:bg-gray-600 transition-colors px-6 py-3 rounded font-semibold flex items-center gap-2"
+                className="bg-gray-700 hover:bg-gray-600 transition-colors px-6 py-3 rounded font-semibold flex items-center gap-2 w-full sm:w-auto justify-center"
               >
                 <FaTrophy /> Join Contests
               </Link>

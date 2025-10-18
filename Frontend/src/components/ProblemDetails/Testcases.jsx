@@ -54,7 +54,7 @@ const Testcases = ({
         ))}
       </div>
 
-      <div className="flex-1 overflow-y-auto bg-[#1e1e1e] text-gray-100 p-3 rounded-md">
+      <div className="flex-1 bg-[#1e1e1e] text-gray-100 p-3 rounded-md">
         {/* Compilation / Runtime Errors */}
         {isErrorVerdict && (
           <div className="rounded-xl p-4 space-y-2">
@@ -69,7 +69,7 @@ const Testcases = ({
 
         {/* Test Case Results */}
         {!isErrorVerdict && currentTest && (
-          <div className="bg-[#1e1e1e] p-4 rounded-md space-y-3 overflow-y-auto max-h-96">
+          <div className="bg-[#1e1e1e] p-4 rounded-md space-y-3 max-h-96">
             <div className="bg-[#2a2a2a] p-3 rounded-md">
               <p className="text-xs text-gray-400 mb-1">Input</p>
               <pre className="text-sm font-mono text-gray-200 whitespace-pre-wrap p-3 overflow-x-auto">
@@ -97,7 +97,7 @@ const Testcases = ({
         {!isErrorVerdict &&
           !hasTestResults &&
           problem?.testCases?.[selectedTestCase] && (
-            <div className="bg-[#1e1e1e] p-4 rounded-md space-y-3 overflow-y-auto max-h-96">
+            <div className="bg-[#1e1e1e] p-4 rounded-md space-y-3 max-h-96">
               <div className="bg-[#2a2a2a] p-3 rounded-md mb-2">
                 <p className="text-xs text-gray-400 mb-1">Input</p>
                 <pre className="text-sm font-mono text-white whitespace-pre-wrap p-3 overflow-x-auto">
