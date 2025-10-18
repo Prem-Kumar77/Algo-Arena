@@ -18,29 +18,16 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 app.set('trust proxy', 1);
 
-// Allow single or comma-separated list of origins via CLIENT_URL (trim + no trailing slash)
-const allowedOrigins = (process.env.CLIENT_URL || "")
-  .split(",")
-  .map((o) => o.trim().replace(/\/$/, ""))
-  .filter(Boolean);
+// Allow single or comma-separated list of origins via CLIENT_URL
+const allowedOrigins = (process.env.CLIENT_URL || "").split(",").map((o) => o.trim()).filter(Boolean);
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    const normalized = origin.replace(/\/$/, "");
-    if (allowedOrigins.length === 0 || allowedOrigins.includes(normalized)) {
-      return callback(null, true);
-    }
-    return callback(new Error("Not allowed by CORS"));
-  },
-  credentials: true,
-  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
-  exposedHeaders: ["Set-Cookie"],
-};
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// Handle preflight with credentials
 
 
 app.use("/api/auth", authRouter);
