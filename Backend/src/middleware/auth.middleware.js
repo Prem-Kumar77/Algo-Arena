@@ -26,6 +26,12 @@ async function protectRoute(req, res, next) {
         .json({ message: "Unauthorized - No Token Provided" });
     }
 
+    // Check if JWT_SECRET is set
+    if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET not configured");
+      return res.status(500).json({ message: "Server configuration error" });
+    }
+
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decode.id).select("-password");
 
@@ -42,7 +48,7 @@ async function protectRoute(req, res, next) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Unauthorized - Token Expired" });
     }
-    console.log("Error in protectRoute middleware: ", error.message);
+    console.error("Error in protectRoute middleware:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 }

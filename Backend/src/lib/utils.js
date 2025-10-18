@@ -1,12 +1,12 @@
 import JWT from "jsonwebtoken";
 
 const generateToken = (user, res) => {
-  if (!user || !user.id) {
+  if (!user || !user._id) {
     throw new Error("Invalid user");
   }
 
   const payload = {
-    id: user.id,
+    id: user._id,
     role: user.role,
   };
 

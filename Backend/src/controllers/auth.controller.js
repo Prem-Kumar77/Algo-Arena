@@ -106,7 +106,7 @@ async function refresh(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const token = generateToken(user, res);
+    const { token } = generateToken(user, res);
     res.status(200).json({ message: "Token refreshed successfully", token });
   } catch (error) {
     res
